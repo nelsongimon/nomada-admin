@@ -12,7 +12,7 @@ import Status from "@/Components/Status";
 export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: "order_code",
-    header: () => <span className="text-black">Order Number</span>,
+    header: () => <span className="text-black">Order Code</span>,
     enableHiding: false,
     cell: ({ row }) => {
       return (
@@ -29,7 +29,7 @@ export const columns: ColumnDef<Order>[] = [
     }
   },
   {
-    accessorKey: "guide_number",
+    accessorKey: "guide",
     header: () => <span className="text-black">Guide Number</span>,
     cell: ({ row }) => {
       const guide_number = row.original.guide_number;
@@ -61,6 +61,9 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: "customer_email",
     header: () => <span className="text-black">Customer Email</span>,
+    cell: ({ row }) => {
+      return <span>{row.original.customer_email}</span>
+    }
   },
   {
     accessorKey: "created_at",
@@ -94,11 +97,7 @@ export const columns: ColumnDef<Order>[] = [
           underline-offset-4
           hover:underline
           cursor-pointer
-          py-1
-          px-3
-          hover:bg-gray-100
           duration-300
-          rounded-full
         ">
           Details
         </span>

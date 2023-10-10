@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shadcn/ui/select"
+import { useEffect } from "react"
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
@@ -22,6 +23,11 @@ interface DataTablePaginationProps<TData> {
 export default function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
+
+  useEffect(() => {
+    table.setPageSize(15);
+  }, []);
+
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex-1 text-sm text-muted-foreground">
@@ -41,7 +47,7 @@ export default function DataTablePagination<TData>({
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
-              {[10, 20, 30, 40, 50].map((pageSize) => (
+              {[15, 30, 45, 60].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>

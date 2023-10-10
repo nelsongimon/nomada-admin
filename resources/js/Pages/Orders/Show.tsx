@@ -32,7 +32,7 @@ export default function Order({ auth, order }: PageProps) {
         toast.success('Order updated');
       },
       onError: () => {
-        toast.error('Order not updated');
+        toast.error('Somthing went wrong');
       },
       // preserveScroll: true,
     });
@@ -67,7 +67,10 @@ export default function Order({ auth, order }: PageProps) {
                               Total amount:
                             </h2>
                             <p className="text-gray-700 font-normal text-base">
-                              ${order.total_amount_usd} | Bs {order.total_amount_ven}
+                              ${order.total_amount_usd}
+                              <span className="text-gray-500 text-xs ml-2">
+                                (Bs {order.total_amount_ven})
+                              </span>
                             </p>
                           </div>
                         </div>
@@ -110,6 +113,7 @@ export default function Order({ auth, order }: PageProps) {
                               <div>
                                 <Calendar
                                   mode="single"
+                                  disableNavigation={true}
                                   selected={new Date(order.created_at)}
                                   defaultMonth={new Date(order.created_at)}
                                   disabled
@@ -124,9 +128,10 @@ export default function Order({ auth, order }: PageProps) {
                               <div>
                                 <Calendar
                                   mode="single"
+                                  disableNavigation={order.status === "completed" ? true : false}
                                   selected={shippingDate}
                                   onSelect={setShippingDate}
-                                  disabled={order.shipping_date ? true : false}
+                                  disabled={order.status === "completed" ? true : false}
                                   className="rounded-md border"
                                 />
                               </div>
@@ -171,6 +176,93 @@ export default function Order({ auth, order }: PageProps) {
                 <div className="col-span-4">
                   <Alert>
                     <AlertDescription>
+                      <div className="mb-5">
+                        <h3 className="text-lg font-semibold">
+                          Order Details
+                        </h3>
+                      </div>
+                      {/* Product List */}
+                      <div className="flex flex-col gap-y-7">
+                        {/* Product Item */}
+                        <div className="flex gap-x-3">
+                          <div className="
+                          w-[100px]
+                          h-[100px]
+                          aspect-square
+                          overflow-hidden
+                          rounded-md
+                          bg-gray-color
+                          flex
+                          items-center
+                        ">
+                            <img
+                              src="https://www.nomadavzla.com/wp-content/uploads/2023/09/TR2218-Web-01.jpg"
+                              alt=""
+                              className="object-cotain object-center"
+                            />
+                          </div>
+                          <div className="flex flex-col justify-evenly">
+                            <div>
+                              <h4 className="text-base font-semibold">
+                                Modelo TR455373
+                              </h4>
+                            </div>
+                            <div className="flex gap-x-3 items-center">
+                              <p className="text-base font-semibold">
+                                $25 <span className="font-regular text-xs text-gray-400">(Price)</span>
+                              </p>
+                              <span className="text-base text-black">x</span>
+                              <p className="text-base font-semibold">
+                                2 <span className="font-regular text-xs text-gray-400">(Quantity)</span>
+                              </p>
+                            </div>
+                            <div className="flex gap-x-3">
+                              <span className="text-base font-semibold">Total:</span>
+                              <span className="text-base font-semibold">$50</span>
+                            </div>
+                          </div>
+                        </div>
+                        <hr className="border-gray-100 border-[0.5px]" />
+                        {/* Product Item */}
+                        <div className="flex gap-x-3">
+                          <div className="
+                          w-[100px]
+                          h-[100px]
+                          aspect-square
+                          overflow-hidden
+                          rounded-md
+                          bg-gray-color
+                          flex
+                          items-center
+                        ">
+                            <img
+                              src="https://www.nomadavzla.com/wp-content/uploads/2023/09/TR2218-Web-01.jpg"
+                              alt=""
+                              className="object-cotain object-center"
+                            />
+                          </div>
+                          <div className="flex flex-col justify-evenly">
+                            <div>
+                              <h4 className="text-base font-semibold">
+                                Modelo TR455373
+                              </h4>
+                            </div>
+                            <div className="flex gap-x-3 items-center">
+                              <p className="text-base font-semibold">
+                                $25 <span className="font-regular text-xs text-gray-400">(Price)</span>
+                              </p>
+                              <span className="text-base text-black">x</span>
+                              <p className="text-base font-semibold">
+                                2 <span className="font-regular text-xs text-gray-400">(Quantity)</span>
+                              </p>
+                            </div>
+                            <div className="flex gap-x-3">
+                              <span className="text-base font-semibold">Total:</span>
+                              <span className="text-base font-semibold">$50</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </AlertDescription>
                   </Alert>
                 </div>

@@ -11,6 +11,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     };
     order: Order;
     orders: Order[];
+    slides: Slide[];
 };
 
 export type Order = {
@@ -27,4 +28,18 @@ export type Order = {
     shipping_method: string;
     guide_number: string | null;
     shipping_date: string | null;
+  }
+
+  export type Slide = {
+    id: number;
+    desktop_image: string;
+    mobile_image: string;
+    title: string;
+    order: number;
+    description: string;
+    label: string;
+    action: string;
+    position: string;
+    created_at: string;
+    active: boolean;
   }

@@ -40,18 +40,15 @@ export default function Login({ status, canResetPassword }: { status?: string, c
             type="email"
             name="email"
             value={data.email}
-            className="mt-1 block w-full"
             autoComplete="username"
             isFocused={true}
             onChange={(e) => setData('email', e.target.value)}
           />
-
           <InputError message={errors.email} className="mt-2" />
         </div>
 
         <div className="mt-4">
           <InputLabel htmlFor="password" value="Password" />
-
           <TextInput
             id="password"
             type="password"
@@ -80,7 +77,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
           {canResetPassword && (
             <Link
               href={route('password.request')}
-              className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
             >
               Forgot your password?
             </Link>

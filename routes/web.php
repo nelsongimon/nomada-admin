@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SlideController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,7 +32,11 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('/orders', OrderController::class)
-    ->except(['create', 'edit', 'destroy'])
+    ->only(['index', 'show', 'store', 'update'])
+    ->middleware(['auth', 'verified']);
+
+Route::resource('/slides', SlideController::class)
+    ->only(['index', 'store', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {

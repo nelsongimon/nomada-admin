@@ -26,7 +26,6 @@ export default function Orders({ auth, orders }: PageProps) {
               <DataTable
                 columns={columns}
                 data={orders}
-                searchKey="order_code"
               />
             </div>
           </div>

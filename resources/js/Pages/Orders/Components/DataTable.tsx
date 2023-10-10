@@ -42,20 +42,18 @@ import { Settings2 } from "lucide-react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[],
-  searchKey: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
-  searchKey
+  data
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []
   );
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
-    guide_number: false
+    guide: false
   });
 
   const table = useReactTable({
@@ -81,12 +79,20 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-x-4">
         <Input
-          placeholder="Filter by order number..."
+          placeholder="Filter by order code..."
           value={(table.getColumn("order_code")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("order_code")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+        <Input
+          placeholder="Filter by customer email..."
+          value={(table.getColumn("customer_email")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("customer_email")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -108,7 +114,7 @@ export function DataTable<TData, TValue>({
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
-                    className=""
+                    className="capitalize"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)

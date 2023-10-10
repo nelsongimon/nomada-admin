@@ -56,7 +56,11 @@ export default function UpdateStatusSelect({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Guide Number</FormLabel>
-                <Input type="text" {...field} placeholder="Guide Numbe" />
+                <Input
+                  type="text" {...field}
+                  placeholder="Guide Numbe"
+                  disabled={status === "completed" ? true : false}
+                />
                 <FormMessage />
               </FormItem>
             )}
