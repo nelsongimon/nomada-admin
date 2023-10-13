@@ -20,7 +20,7 @@ export default function SlideItem({
       {/* Image */}
       <div className="h-[100px] w-[150px] overflow-hidden rounded-md">
         <img
-          src={slide.desktop_image}
+          src={slide.desktopImage}
           alt="Slide image"
           className={cn(`object-cover w-full h-full`, slide.active ? 'opacity-100' : 'opacity-30')}
         />

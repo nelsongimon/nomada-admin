@@ -1,48 +1,49 @@
-import { useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 import { Input } from "@/shadcn/ui/input";
 import { Textarea } from "@/shadcn/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shadcn/ui/select";
 import { ChangeEvent } from "react";
 import { Button } from "@/shadcn/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { Trash2, XCircle } from "lucide-react";
+import { CheckCircle2, Trash2, XCircle } from "lucide-react";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { cn, slugify } from "@/lib/utils";
+import axios from "axios";
+import { Style } from "@/types";
 
-interface FormSlideProps {
+interface FormCreateStyle {
   closeModal: () => void;
+  style: Style;
 }
 
-export default function FormSlide({
+export default function FormCreateStyle({
   closeModal,
-}: FormSlideProps) {
+  style
+}: FormCreateStyle) {
   const [isLoading, setIsLoading] = useState(false);
-  const [desktopImagePreview, setDesktopImagePreview] = useState("");
-  const [mobileImagePreview, setMobileImagePreview] = useState("");
-  const { data, setData, post, errors } = useForm({
-    desktopImage: {},
-    mobileImage: {},
-    title: "",
-    description: "",
-    label: "",
-    action: "",
-    position: "",
-    order: 0
+  const [checkSlug, setCheckSlug] = useState(true);
+  const [imagePreview, setImagePreview] = useState(style.image);
+  const [billboardImagePreview, setBillboardImagePreview] = useState(style.billboard ?? "");
+  const { data, setData, errors } = useForm({
+    image: {},
+    billboard: {},
+    name: style.name,
+    description: style.description ?? "",
+    slug: style.slug,
+    order: style.order
   });
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    post(route("slides.store"), {
+
+    router.post(route('styles.update', style.id), {
+      _method: "patch",
+      ...data,
+    }, {
       onStart: () => setIsLoading(true),
       onSuccess: () => {
         closeModal();
-        toast.success("Slide created");
+        toast.success("Style updated");
         setIsLoading(false);
       },
       onError: () => {
@@ -51,46 +52,72 @@ export default function FormSlide({
     });
   }
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>, key: "desktopImage" | "mobileImage") => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>, key: "image" | "billboard") => {
     if (event.target.files) {
       const file = event.target.files[0];
       const reader = new FileReader();
       setData(key, file);
       reader.onload = (e) => {
-        if (key === "desktopImage") setDesktopImagePreview(e.target?.result as string);
-        else setMobileImagePreview(e.target?.result as string);
+        if (key === "image") setImagePreview(e.target?.result as string);
+        else setBillboardImagePreview(e.target?.result as string);
       }
       reader.readAsDataURL(file);
     }
   };
 
-  const deleteImage = (key: "desktopImage" | "mobileImage") => {
+  const deleteImage = (key: "image" | "billboard") => {
     setData(key, {});
-    if (key === "desktopImage") setDesktopImagePreview("");
-    else setMobileImagePreview("");
+    if (key === "image") setImagePreview("");
+    else setBillboardImagePreview("");
   }
+
+  const handleCheckSlug = () => {
+    if (checkSlug) {
+      toast.success("Slug unlocked");
+      setCheckSlug(false);
+      return;
+    }
+    axios.post('/categories/check', {
+      slug: data.slug
+    }).then((res) => {
+      if (res.data.slug) {
+        toast.success("Slug available");
+      } else {
+        toast.error("Slug not available");
+      }
+      setCheckSlug(res.data.slug);
+    }).
+      catch((err) => {
+        console.log("Error", err);
+      })
+  }
+
+  useEffect(() => {
+    if (checkSlug) return;
+    setData("slug", slugify(data.name));
+  }, [data.name]);
 
   return (
     <div className="py-7 px-5">
       <div className="mb-4">
         <h3 className="text-center font-semibold text-xl">
-          Add new slide
+          Edit style
         </h3>
       </div>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-y-4">
           <div className="grid grid-cols-2 gap-x-4">
-            {/* Title */}
+            {/* Name */}
             <div className="col-span-1 flex flex-col gap-y-2">
               <Input
                 placeholder="Title"
-                value={data.title}
-                onChange={(e) => setData("title", e.target.value)}
+                value={data.name}
+                onChange={(e) => setData("name", e.target.value)}
               />
-              {errors.title && (
+              {errors.name && (
                 <div className="flex items-center gap-x-1 text-red-500 text-sm font-normal ml-1">
                   <XCircle size={20} className="stroke-[1]" />
-                  {errors.title}
+                  {errors.name}
                 </div>
               )}
             </div>
@@ -98,8 +125,8 @@ export default function FormSlide({
             <div className="col-span-1 flex flex-col gap-y-2">
               <Input
                 type="number"
-                min={0}
                 placeholder="Order"
+                min={0}
                 value={data.order}
                 onChange={(e) => setData("order", Number(e.target.value))}
               />
@@ -111,54 +138,37 @@ export default function FormSlide({
               )}
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-x-4">
-            {/* Label */}
-            <div className="col-span-1 flex flex-col gap-y-2">
+          <div className="grid grid-cols-12 gap-x-4">
+            {/* Slug */}
+            <div className="col-span-9 flex flex-col gap-y-2">
               <Input
-                placeholder="Label"
-                value={data.label}
-                onChange={(e) => setData("label", e.target.value)}
+                placeholder="Slug"
+                value={data.slug}
+                onChange={(e) => setData("slug", e.target.value)}
+                disabled={checkSlug}
               />
-              {errors.label && (
+              {errors.slug && (
                 <div className="flex items-center gap-x-1 text-red-500 text-sm font-normal ml-1">
                   <XCircle size={20} className="stroke-[1]" />
-                  {errors.label}
+                  {errors.slug}
                 </div>
               )}
             </div>
-            {/* Call to action */}
-            <div className="col-span-1 flex flex-col gap-y-2">
-              <Input
-                placeholder="Call to action"
-                value={data.action}
-                onChange={(e) => setData("action", e.target.value)}
-              />
-              {errors.action && (
-                <div className="flex items-center gap-x-1 text-red-500 text-sm font-normal ml-1">
-                  <XCircle size={20} className="stroke-[1]" />
-                  {errors.action}
-                </div>
-              )}
+            <div className="col-span-3">
+              <Button
+                variant={"secondary"}
+                onClick={handleCheckSlug}
+                type="button"
+                className={cn(`
+                  w-full flex items-center gap-x-2
+                `,
+                  checkSlug && "bg-green-500 hover:bg-green-600 text-white"
+                )}
+              >
+                <CheckCircle2 size={20} className="stroke-[1.5]" />
+                {checkSlug ? "Checked" : "Check"}
+              </Button>
             </div>
-          </div>
-          {/* Position */}
-          <div className="col-span-1 flex flex-col gap-y-2">
-            <Select onValueChange={(value) => setData("position", value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Position" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="left">Left</SelectItem>
-                <SelectItem value="center">Center</SelectItem>
-                <SelectItem value="right">Right</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.position && (
-              <div className="flex items-center gap-x-1 text-red-500 text-sm font-normal ml-1">
-                <XCircle size={20} className="stroke-[1]" />
-                {errors.position}
-              </div>
-            )}
           </div>
           {/* Description */}
           <div className="flex flex-col gap-y-2">
@@ -175,9 +185,9 @@ export default function FormSlide({
             )}
           </div>
           <div className="grid grid-cols-2 gap-x-4">
-            {/* Desktop image */}
+            {/* Image */}
             <div className="col-span-1 flex flex-col gap-y-2">
-              <label htmlFor="desktopImage" className="
+              <label htmlFor="image" className="
               text-gray-500 
               border
               border-gray-200
@@ -190,11 +200,11 @@ export default function FormSlide({
               items-center
               justify-center
               ">
-                {desktopImagePreview ? (
+                {imagePreview ? (
                   <div className="flex flex-col gap-y-1 items-center">
-                    <div className="w-[250px] h-[150px] rounded-md overflow-hidden relative">
+                    <div className="w-[150px] h-[100px] rounded-md overflow-hidden relative">
                       <img
-                        src={desktopImagePreview}
+                        src={imagePreview}
                         alt="Preview"
                         className="
                           object-cover
@@ -206,7 +216,7 @@ export default function FormSlide({
                       <Button
                         size={"sm"}
                         variant={"destructive"}
-                        onClick={() => deleteImage("desktopImage")}
+                        onClick={() => deleteImage("billboard")}
                         className="absolute top-2 right-2"
                       >
                         <Trash2 size={20} className="" />
@@ -214,21 +224,21 @@ export default function FormSlide({
                     </div>
                   </div>
                 ) : (
-                  <span>Add desktop image</span>
+                  <span>Edit image</span>
                 )
                 }
               </label>
-              <input id="desktopImage" type="file" onChange={(e) => handleFileChange(e, "desktopImage")} className="hidden" />
-              {errors.desktopImage && (
+              <input id="image" type="file" onChange={(event) => handleFileChange(event, "image")} className="hidden" />
+              {errors.image && (
                 <div className="flex items-center gap-x-1 text-red-500 text-sm font-normal ml-1">
                   <XCircle size={20} className="stroke-[1]" />
-                  {errors.desktopImage}
+                  {errors.image}
                 </div>
               )}
             </div>
-            {/* Mobile image */}
+            {/* Billboard */}
             <div className="col-span-1 flex flex-col gap-y-2">
-              <label htmlFor="mobileImage" className="
+              <label htmlFor="billboard" className="
               text-gray-500 
               border
               border-gray-200
@@ -241,11 +251,11 @@ export default function FormSlide({
               items-center
               justify-center
               ">
-                {mobileImagePreview ? (
+                {billboardImagePreview ? (
                   <div className="flex flex-col gap-y-1 items-center">
-                    <div className="w-[150px] h-[150px] rounded-md overflow-hidden relative">
+                    <div className="w-[300px] h-[100px] rounded-md overflow-hidden relative">
                       <img
-                        src={mobileImagePreview}
+                        src={billboardImagePreview}
                         alt="Preview"
                         className="
                           object-cover
@@ -257,7 +267,7 @@ export default function FormSlide({
                       <Button
                         size={"sm"}
                         variant={"destructive"}
-                        onClick={() => deleteImage("mobileImage")}
+                        onClick={() => deleteImage("billboard")}
                         className="absolute top-2 right-2"
                       >
                         <Trash2 size={20} className="" />
@@ -265,15 +275,15 @@ export default function FormSlide({
                     </div>
                   </div>
                 ) : (
-                  <span>Add mobile image</span>
+                  <span>Edit billboard image</span>
                 )
                 }
               </label>
-              <input id="mobileImage" type="file" onChange={(e) => handleFileChange(e, "mobileImage")} className="hidden" />
-              {errors.mobileImage && (
+              <input id="billboard" type="file" onChange={(event) => handleFileChange(event, "billboard")} className="hidden" />
+              {errors.billboard && (
                 <div className="flex items-center gap-x-1 text-red-500 text-sm font-normal ml-1">
                   <XCircle size={20} className="stroke-[1]" />
-                  {errors.mobileImage}
+                  {errors.billboard}
                 </div>
               )}
             </div>
@@ -291,12 +301,12 @@ export default function FormSlide({
           </Button>
           <Button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || !checkSlug}
           >
             {isLoading && (
               <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Save slide
+            Edit style
           </Button>
         </div>
       </form>

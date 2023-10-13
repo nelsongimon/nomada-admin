@@ -24,9 +24,15 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                   </Link>
                 </div>
 
-                <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div className="hidden space-x-5 sm:-my-px sm:ml-10 sm:flex">
                   <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                     Dashboard
+                  </NavLink>
+                  <NavLink href={route('categories.index')} active={route().current('categories.index')}>
+                    Categories
+                  </NavLink>
+                  <NavLink href={route('styles.index')} active={route().current('styles.index')}>
+                    Styles
                   </NavLink>
                   <NavLink href={route('orders.index')} active={route().current('orders.index')}>
                     Orders
@@ -104,6 +110,9 @@ export default function Authenticated({ user, header, children }: PropsWithChild
             <div className="pt-2 pb-3 space-y-1">
               <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                 Dashboard
+              </ResponsiveNavLink>
+              <ResponsiveNavLink href={route('categories.index')} active={route().current('categories.index')}>
+                Categories
               </ResponsiveNavLink>
               <ResponsiveNavLink href={route('orders.index')} active={route().current('orders.index')}>
                 Orders

@@ -26,9 +26,9 @@ export default function FormEditSlide({
   closeModal,
 }: FormEditSlide) {
   const [isLoading, setIsLoading] = useState(false);
-  const [desktopImagePreview, setDesktopImagePreview] = useState(slide.desktop_image);
-  const [mobileImagePreview, setMobileImagePreview] = useState(slide.mobile_image);
-  const { data, setData, post, patch, errors } = useForm({
+  const [desktopImagePreview, setDesktopImagePreview] = useState(slide.desktopImage);
+  const [mobileImagePreview, setMobileImagePreview] = useState(slide.mobileImage);
+  const { data, setData, errors } = useForm({
     desktopImage: {},
     mobileImage: {},
     title: slide.title,

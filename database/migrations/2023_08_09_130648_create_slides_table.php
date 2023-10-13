@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('slides', function (Blueprint $table) {
             $table->id();
-            $table->string('desktop_image');
-            $table->string('mobile_image');
+            $table->string('desktopImage');
+            $table->string('mobileImage');
             $table->string('title');
             $table->text('description');
             $table->string('label');
             $table->string('action');
             $table->string('position');
-            $table->integer("order");
-            $table->boolean("active");
+            $table->integer('order');
+            $table->boolean('active');
             $table->timestamps();
         });
     }

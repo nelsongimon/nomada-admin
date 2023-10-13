@@ -48,14 +48,14 @@ class SlideController extends Controller
             $image = $request->file('desktopImage');
             $originalName = $image->getClientOriginalName();
             $fileName = Carbon::now()->format('YmdHis') . '_' . $originalName;
-            $slide->desktop_image = $image->storeAs('public/images', $fileName);
+            $slide->desktopImage = $image->storeAs('/images/slides', $fileName);
         }
 
         if ($request->hasFile('mobileImage')) {
             $image = $request->file('mobileImage');
             $originalName = $image->getClientOriginalName();
             $fileName = Carbon::now()->format('YmdHis') . '_' . $originalName;
-            $slide->mobile_image = $image->storeAs('public/images', $fileName);
+            $slide->mobileImage = $image->storeAs('/images/slides', $fileName);
         }
 
         $slide->save();
@@ -101,14 +101,14 @@ class SlideController extends Controller
             $image = $request->file('desktopImage');
             $originalName = $image->getClientOriginalName();
             $fileName = Carbon::now()->format('YmdHis') . '_' . $originalName;
-            $slide->desktop_image = $image->storeAs('public/images', $fileName);
+            $slide->desktopImage = $image->storeAs('/images/slides', $fileName);
         }
 
         if ($request->hasFile('mobileImage')) {
             $image = $request->file('mobileImage');
             $originalName = $image->getClientOriginalName();
             $fileName = Carbon::now()->format('YmdHis') . '_' . $originalName;
-            $slide->mobile_image = $image->storeAs('public/images', $fileName);
+            $slide->mobileImage = $image->storeAs('/images/slides', $fileName);
         }
 
         $slide->save();

@@ -46,8 +46,8 @@ class OrderController extends Controller
     {
         $order = Order::where('uuid', $uuid)->first();
         $order->status = $request->status;
-        $order->guide_number = $request->guide_number;
-        $order->shipping_date = Carbon::parse($request->shipping_date)->format('Y-m-d H:i:s');
+        $order->guideNumber = $request->guide_number;
+        $order->shippingDate = Carbon::parse($request->shipping_date)->format('Y-m-d H:i:s');
         $order->save();
 
         return to_route('orders.show', $order->uuid);

@@ -11,12 +11,12 @@ import Status from "@/Components/Status";
 
 export const columns: ColumnDef<Order>[] = [
   {
-    accessorKey: "order_code",
+    accessorKey: "orderCode",
     header: () => <span className="text-black">Order Code</span>,
     enableHiding: false,
     cell: ({ row }) => {
       return (
-        <span>#{row.original.order_code}</span>
+        <span>#{row.original.orderCode}</span>
       )
     }
   },
@@ -32,11 +32,11 @@ export const columns: ColumnDef<Order>[] = [
     accessorKey: "guide",
     header: () => <span className="text-black">Guide Number</span>,
     cell: ({ row }) => {
-      const guide_number = row.original.guide_number;
+      const guideNumber = row.original.guideNumber;
       return (
         <div>
-          {guide_number ? (
-            <span>#{guide_number}</span>
+          {guideNumber ? (
+            <span>#{guideNumber}</span>
           ) : (
             <span>-----</span>
           )}
@@ -46,10 +46,10 @@ export const columns: ColumnDef<Order>[] = [
 
   },
   {
-    accessorKey: "total_amount_usd",
+    accessorKey: "totalAmountUsd",
     header: () => <span className="text-black">Amount</span>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("total_amount_usd"))
+      const amount = parseFloat(row.getValue("totalAmountUsd"))
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
@@ -59,10 +59,10 @@ export const columns: ColumnDef<Order>[] = [
     }
   },
   {
-    accessorKey: "customer_email",
+    accessorKey: "customerEmail",
     header: () => <span className="text-black">Customer Email</span>,
     cell: ({ row }) => {
-      return <span>{row.original.customer_email}</span>
+      return <span>{row.original.customerEmail}</span>
     }
   },
   {

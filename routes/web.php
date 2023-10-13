@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SlideController;
+use App\Http\Controllers\StyleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,8 +37,21 @@ Route::resource('/orders', OrderController::class)
     ->only(['index', 'show', 'store', 'update'])
     ->middleware(['auth', 'verified']);
 
+
 Route::resource('/slides', SlideController::class)
     ->only(['index', 'store', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+
+Route::resource('/categories', CategoryController::class)
+    ->only(['index', 'store', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+Route::post('/categories/check', [CategoryController::class, 'checkSlug'])
+    ->middleware(['auth', 'verified']);
+
+Route::resource('/styles', StyleController::class)
+    ->only(['index', 'store', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+Route::post('/styles/check', [StyleController::class, 'checkSlug'])
     ->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {

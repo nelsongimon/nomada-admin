@@ -12,34 +12,58 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     order: Order;
     orders: Order[];
     slides: Slide[];
+    categories: Category[];
+    styles: Style[];
 };
 
 export type Order = {
     uuid: string;
-    order_code: number;
+    orderCode: number;
     status: string;
-    total_amount_usd: number;
-    total_amount_ven: number;
-    customer_email: string;
-    customer_name: string;
-    customer_phone_number: string;
+    totalAmountUsd: number;
+    totalAmountVen: number;
+    customerEmail: string;
+    customerName: string;
+    customerPhoneNumber: string;
+    paymentMethod: string;
+    shippingMethod: string;
+    guideNumber: string | null;
+    shippingDate: string | null;
     created_at: string;
-    payment_method: string;
-    shipping_method: string;
-    guide_number: string | null;
-    shipping_date: string | null;
   }
 
   export type Slide = {
     id: number;
-    desktop_image: string;
-    mobile_image: string;
+    desktopImage: string;
+    mobileImage: string;
     title: string;
     order: number;
     description: string;
     label: string;
     action: string;
     position: string;
-    created_at: string;
     active: boolean;
   }
+
+  export type Category = {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+    billboard: string | null;
+    order: number;
+    products_count: number;
+  }
+
+  export type Style = {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+    image: string;
+    billboard: string | null;
+    order: number;
+    products_count: number;
+  }
+
+  

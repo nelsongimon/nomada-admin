@@ -52,7 +52,7 @@ export default function Order({ auth, order }: PageProps) {
                   <Alert>
                     <AlertTitle className="flex gap-x-3 items-center">
                       <div className="text-lg">
-                        Order Number #{order.order_code}
+                        Order Number #{order.orderCode}
                       </div>
                       <Status
                         status={order.status}
@@ -67,9 +67,9 @@ export default function Order({ auth, order }: PageProps) {
                               Total amount:
                             </h2>
                             <p className="text-gray-700 font-normal text-base">
-                              ${order.total_amount_usd}
+                              ${order.totalAmountUsd}
                               <span className="text-gray-500 text-xs ml-2">
-                                (Bs {order.total_amount_ven})
+                                (Bs {order.totalAmountVen})
                               </span>
                             </p>
                           </div>
@@ -82,7 +82,7 @@ export default function Order({ auth, order }: PageProps) {
                               Email:
                             </h2>
                             <p className="text-gray-700 font-normal text-base">
-                              {order.customer_email}
+                              {order.customerEmail}
                             </p>
                           </div>
                           <div className="flex gap-x-3 items-center">
@@ -90,7 +90,7 @@ export default function Order({ auth, order }: PageProps) {
                               Name:
                             </h2>
                             <p className="text-gray-700 font-normal text-base">
-                              {order.customer_name}
+                              {order.customerName}
                             </p>
                           </div>
                           <div className="flex gap-x-3 items-center">
@@ -98,7 +98,7 @@ export default function Order({ auth, order }: PageProps) {
                               Phone Number:
                             </h2>
                             <p className="text-gray-700 font-normal text-base">
-                              {order.customer_phone_number}
+                              {order.customerPhoneNumber}
                             </p>
                           </div>
                         </div>
@@ -140,7 +140,7 @@ export default function Order({ auth, order }: PageProps) {
                           <div className="mt-3">
                             <UpdateStatusSelect
                               status={order.status}
-                              guide_number={order.guide_number}
+                              guide_number={order.guideNumber}
                               handleUpdate={handleUpdate}
                             />
                           </div>
@@ -153,7 +153,7 @@ export default function Order({ auth, order }: PageProps) {
                               Payment method:
                             </h2>
                             <p className="text-gray-700 font-normal text-base">
-                              {order.payment_method}
+                              {order.paymentMethod}
                             </p>
                           </div>
                         </div>
@@ -165,7 +165,7 @@ export default function Order({ auth, order }: PageProps) {
                               Shipping method:
                             </h2>
                             <p className="text-gray-700 font-normal text-base">
-                              {order.shipping_method}
+                              {order.shippingMethod}
                             </p>
                           </div>
                         </div>

@@ -1,36 +1,37 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
-import { PageProps, Slide } from '@/types';
+import { Style, PageProps } from '@/types';
 import { Button } from '@/shadcn/ui/button';
 import { useState } from 'react';
 import { PlusCircle } from 'lucide-react';
-import FormSlide from '@/Components/FormSlide';
 import Modal from '@/Components/Modal';
-import SlideItem from '@/Components/SlideItem';
-import FormEditSlide from '@/Components/FormEditSlide';
 import toast from 'react-hot-toast';
+import StyleItem from '@/Components/StyleItem';
+import FormCreateStyle from '@/Components/FormCreateStyle';
+import FormEditStyle from '@/Components/FormEditStyle';
 
-export default function Slides({ auth, slides }: PageProps) {
+export default function Styles({ auth, styles }: PageProps) {
+
   const [openFormModal, setOpenFormModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteConfirmModal, setOpenDeleteConfirmModal] = useState(false);
-  const [currentSlideEdit, setCurrentSlideEdit] = useState<Slide | null>(null);
-  const [deleteSlide, setDeleteSlide] = useState<Slide | null>(null);
-  console.log(slides);
-  const handleEdit = (slide: Slide) => {
-    setCurrentSlideEdit(slide);
+  const [currentStyleEdit, setCurrentStyleEdit] = useState<Style | null>(null);
+  const [deleteStyle, setDeleteStyle] = useState<Style | null>(null);
+
+  const handleEdit = (style: Style) => {
+    setCurrentStyleEdit(style);
     setOpenEditModal(true);
   }
 
-  const handleDelete = (slide: Slide) => {
-    setDeleteSlide(slide);
+  const handleDelete = (style: Style) => {
+    setDeleteStyle(style);
     setOpenDeleteConfirmModal(true);
   }
 
   const confirmDeleteSlide = () => {
-    router.delete(route('slides.destroy', deleteSlide?.id), {
+    router.delete(route('styles.destroy', deleteStyle?.id), {
       onSuccess: () => {
-        toast.success('Slide deleted');
+        toast.success('Style deleted');
       },
       onError: () => {
         toast.error('Somthing went wrong');
@@ -48,7 +49,7 @@ export default function Slides({ auth, slides }: PageProps) {
         maxWidth="2xl"
         closeable={false}
       >
-        <FormSlide
+        <FormCreateStyle
           closeModal={() => setOpenFormModal(false)}
         />
       </Modal>
@@ -59,9 +60,9 @@ export default function Slides({ auth, slides }: PageProps) {
         maxWidth="2xl"
         closeable={false}
       >
-        <FormEditSlide
+        <FormEditStyle
           closeModal={() => setOpenEditModal(false)}
-          slide={currentSlideEdit as Slide}
+          style={currentStyleEdit as Style}
         />
       </Modal>
       {/* Modal Delete */}
@@ -74,7 +75,7 @@ export default function Slides({ auth, slides }: PageProps) {
         <div className="p-6">
           <div className="flex flex-col gap-y-7">
             <h2 className="text-xl font-bold text-center text-gray-800">
-              Are you sure you want to delete this slide?
+              Are you sure you want to delete this style?
             </h2>
             <div className="flex justify-between">
               <Button
@@ -95,9 +96,9 @@ export default function Slides({ auth, slides }: PageProps) {
       </Modal>
       <AuthenticatedLayout
         user={auth.user}
-        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Slides</h2>}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Styles</h2>}
       >
-        <Head title="Slides" />
+        <Head title="Styles" />
         <div className="py-12">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -105,7 +106,7 @@ export default function Slides({ auth, slides }: PageProps) {
               <div className="p-6">
                 <div className="flex justify-between">
                   <h2 className="text-2xl font-bold">
-                    All slides
+                    All styles
                   </h2>
                   <div>
                     <Button
@@ -114,24 +115,24 @@ export default function Slides({ auth, slides }: PageProps) {
                       onClick={() => setOpenFormModal(true)}
                       className="flex items-center gap-x-2"
                     >
-                      Create slide <PlusCircle size={20} className="stroke-[1.5]" />
+                      Create style <PlusCircle size={20} className="stroke-[1.5]" />
                     </Button>
                   </div>
 
                 </div>
                 <div className="mt-4">
-                  {slides.length === 0 ? (
+                  {styles.length === 0 ? (
                     <div className="max-w-2xl mx-auto h-[200px] flex flex-col gap-y-5 items-center justify-center">
                       <h5 className="text-xl font-semibold text-gray-400">
-                        There are no slides
+                        There are no styles
                       </h5>
                     </div>
                   ) : (
                     <div className="flex flex-col gap-y-6">
-                      {slides.map((slide) => (
-                        <SlideItem
-                          key={slide.id}
-                          slide={slide}
+                      {styles.map((style) => (
+                        <StyleItem
+                          key={style.id}
+                          style={style}
                           handleEdit={handleEdit}
                           handleDelete={handleDelete}
                         />
