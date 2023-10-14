@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('value')->unique();
+            $table->string('value')->nullable();
             $table->string('image')->nullable();
             $table->integer('order');
-            $table->foreignId('attributeId')->references('id')->on('attributes');
+            $table->foreignId('attributeId')->references('id')->on('attributes')->onDelete('cascade');
             $table->timestamps();
         });
     }

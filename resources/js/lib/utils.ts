@@ -10,5 +10,8 @@ export function capitalizeString(str: string): string {
 }
 
 export function slugify(str: string): string {
-    return str.replace(/\s+/g, "-").toLowerCase();
-}
+    const normalizedString = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const replacedString = normalizedString.replace(/ñ/g, "n").replace(/Ñ/g, "N");
+    return replacedString.replace(/\s+/g, "-").toLowerCase();
+  }
+  

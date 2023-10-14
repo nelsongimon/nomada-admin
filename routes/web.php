@@ -5,6 +5,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\StyleController;
+use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\AttributeValueController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -53,6 +55,15 @@ Route::resource('/styles', StyleController::class)
     ->middleware(['auth', 'verified']);
 Route::post('/styles/check', [StyleController::class, 'checkSlug'])
     ->middleware(['auth', 'verified']);
+
+Route::resource('/attributes', AttributeController::class)
+    ->only(['index', 'store', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+
+Route::resource('/attribute-values', AttributeValueController::class)
+    ->only(['index', 'store', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

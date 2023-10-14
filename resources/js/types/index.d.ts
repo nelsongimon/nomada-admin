@@ -14,6 +14,8 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     slides: Slide[];
     categories: Category[];
     styles: Style[];
+    attributes: Attribute[];
+    values: AttributeValue[];
 };
 
 export type Order = {
@@ -64,6 +66,23 @@ export type Order = {
     billboard: string | null;
     order: number;
     products_count: number;
+  }
+
+  export type Attribute = {
+    id: number;
+    name: string;
+    order: number;
+    attribute_values: AttributeValue[];
+  }
+
+  export type AttributeValue = {
+    id: number;
+    name: string;
+    slug: string;
+    order: number;
+    image: string | null;
+    value: string | null;
+    products_count: string;
   }
 
   

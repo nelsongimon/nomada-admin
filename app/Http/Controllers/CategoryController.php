@@ -14,10 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //I want to get all of categories with the count of products as well
         $categories = Category::withCount('products')->orderBy('order', 'asc')->get();
 
-        // $categories = Category::orderBy('order', 'asc')->get();
         return Inertia::render('Categories/Index', [
             'categories' =>  $categories
         ]);

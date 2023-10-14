@@ -17,16 +17,19 @@ export default function Orders({ auth, orders }: PageProps) {
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            {/* Container */}
             <div className="p-6">
-              <div>
+              <div className="flex justify-between">
                 <h2 className="text-2xl font-bold">
                   All orders
                 </h2>
               </div>
-              <DataTable
-                columns={columns}
-                data={orders}
-              />
+              <div className="mt-4">
+                <DataTable
+                  columns={columns}
+                  data={orders}
+                />
+              </div>
             </div>
           </div>
         </div>

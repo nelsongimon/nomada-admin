@@ -78,7 +78,7 @@ export function DataTable<TData, TValue>({
   }, [columnVisibility]);
 
   return (
-    <div>
+    <div className="w-full">
       <div className="flex items-center py-4 gap-x-4">
         <Input
           placeholder="Filter by order code..."
