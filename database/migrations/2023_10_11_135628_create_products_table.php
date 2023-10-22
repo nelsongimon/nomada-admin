@@ -13,16 +13,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->uuid('uuid')->primary()->unique()->default(Uuid::uuid4());
-            $table->string('slug')->unique();
+            $table->uuid('id')->primary()->unique()->default(Uuid::uuid4());
             $table->string('name');
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->string('model');
-            $table->decimal('regularPrice', 10, 2);
-            $table->decimal('promotionalPrice', 10, 2);
+            $table->string('model')->nullable();
+            $table->decimal('salePrice', 10, 2);
+            $table->decimal('promotionalPrice', 10, 2)->nullable();
             $table->integer('quantity');
             $table->boolean('visibility');
-            $table->string('detailsImage');
+            $table->boolean('featured');
+            $table->string('specificationImage')->nullable();
             $table->foreignId('styleId')->nullable()->references('id')->on('styles');
             $table->foreignId('categoryId')->nullable()->references('id')->on('categories');
             $table->timestamps();

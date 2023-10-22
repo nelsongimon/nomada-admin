@@ -25,7 +25,7 @@ export default function FormCreateCategory({
     name: "",
     description: "",
     slug: "",
-    order: 0
+    order: 1
   });
 
   const handleSubmit = (event: any) => {
@@ -42,6 +42,7 @@ export default function FormCreateCategory({
       onError: () => {
         setIsLoading(false);
       },
+      preserveScroll: true,
     });
   }
 
@@ -118,6 +119,7 @@ export default function FormCreateCategory({
               <Input
                 type="number"
                 placeholder="Order"
+                min={1}
                 value={data.order}
                 onChange={(e) => setData("order", Number(e.target.value))}
               />

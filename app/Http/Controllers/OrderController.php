@@ -15,7 +15,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::all();
+        $orders = Order::orderBy('created_at', 'desc')->get();
         return Inertia::render('Orders/Index', [
             'orders' => $orders
         ]);
@@ -31,9 +31,9 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $uuid)
+    public function show(string $id)
     {
-        $order = Order::where('uuid', $uuid)->first();
+        $order = Order::find($id);
         return Inertia::render('Orders/Show', [
             'order' => $order
         ]);
@@ -42,14 +42,14 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $uuid)
+    public function update(Request $request, string $id)
     {
-        $order = Order::where('uuid', $uuid)->first();
+        $order = Order::find($id);
         $order->status = $request->status;
-        $order->guideNumber = $request->guide_number;
-        $order->shippingDate = Carbon::parse($request->shipping_date)->format('Y-m-d H:i:s');
+        $order->guideNumber = $request->guideNumber;
+        $order->shippingDate = Carbon::parse($request->shippingDate)->format('Y-m-d H:i:s');
         $order->save();
 
-        return to_route('orders.show', $order->uuid);
+        return to_route('orders.show', $order->id);
     }
 }

@@ -3,6 +3,7 @@ export interface User {
     name: string;
     email: string;
     email_verified_at: string;
+    role: string;
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
@@ -16,10 +17,14 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     styles: Style[];
     attributes: Attribute[];
     values: AttributeValue[];
+    products: Product[];
+    product: Product;
+    tags: Tag[];
+    users: User[];
 };
 
 export type Order = {
-    uuid: string;
+    id: string;
     orderCode: number;
     status: string;
     totalAmountUsd: number;
@@ -83,6 +88,36 @@ export type Order = {
     image: string | null;
     value: string | null;
     products_count: string;
+  }
+
+  export type Product = {
+    id: string;
+    name: string;
+    slug: string;
+    description: string | null;
+    salePrice: string;
+    promotionalPrice: string | null;
+    quantity: number | null;
+    visibility: boolean;
+    featured: boolean;
+    model: string | null;
+    created_at: string;
+    category: Category;
+    style: Style;
+    images: Image[];
+    tags: Tag[];
+    attribute_values: AttributeValue[];
+    specificationImage: string | null;
+  }
+
+  export type Tag = {
+    id: number;
+    name: string;
+  }
+
+  export type Image = {
+    id: number;
+    image: string;
   }
 
   

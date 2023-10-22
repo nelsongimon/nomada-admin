@@ -14,13 +14,6 @@ class Product extends Model
 
     public $incrementing = false;
 
-    protected $primaryKey = 'uuid';
-
-    public function images(): HasMany
-    {
-        return $this->hasMany(ProductImage::class, 'productUuid');
-    }
-
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'categoryId');
@@ -33,11 +26,16 @@ class Product extends Model
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'products_tags', 'productUuid', 'tagId');
+        return $this->belongsToMany(Tag::class);
     }
 
-    public function atrributeValues(): BelongsToMany
+    public function attributeValues(): BelongsToMany
     {
-        return $this->belongsToMany(AttributeValue::class, 'products_attributes_values', 'productUuid', 'attributeValueId');
+        return $this->belongsToMany(AttributeValue::class);
+    }
+
+    public function images(): BelongsToMany
+    {
+        return $this->belongsToMany(Image::class);
     }
 }

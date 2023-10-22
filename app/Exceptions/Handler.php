@@ -3,6 +3,11 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -25,5 +30,17 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
         });
+
+        $this->renderable(function (MethodNotAllowedHttpException $exception, Request $request) {
+            if ($request->is('register') && $request->method() === 'GET') {
+                return abort(404);
+            }
+        });
+
+        // $this->renderable(function (ValidationException $exception, Request $request) {
+        //     if ($exception->getResponse() && $exception->getResponse()->status() === 404) {
+        //         return response()->view('errors.404', [], 404);
+        //     }
+        // });
     }
 }

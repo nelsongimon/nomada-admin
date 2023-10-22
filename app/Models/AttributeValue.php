@@ -18,6 +18,6 @@ class AttributeValue extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'products_attributes_values', 'attributeValueId', 'productUuid');
+        return $this->belongsToMany(Product::class);
     }
 }

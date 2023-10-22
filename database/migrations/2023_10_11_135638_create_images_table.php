@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('path');
-            $table->boolean('featured');
-            $table->foreignUuid('productUuid')->references('uuid')->on('products');
+            $table->string('image');
+            // $table->boolean('featured');
+            // $table->foreignUuid('productUuid')->references('uuid')->on('products');
             $table->timestamps();
         });
     }

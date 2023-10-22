@@ -1,11 +1,10 @@
 import { useEffect, FormEventHandler } from 'react';
 import Checkbox from '@/Components/Checkbox';
 import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { Input } from '@/shadcn/ui/input';
+import { XCircle } from 'lucide-react';
+import { Button } from '@/shadcn/ui/button';
 
 export default function Login({ status, canResetPassword }: { status?: string, canResetPassword: boolean }) {
   const { data, setData, post, processing, errors, reset } = useForm({
@@ -31,35 +30,42 @@ export default function Login({ status, canResetPassword }: { status?: string, c
       <Head title="Log in" />
 
       {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-
       <form onSubmit={submit}>
-        <div>
-          <InputLabel htmlFor="email" value="Email" />
-          <TextInput
+        <div className="flex flex-col gap-y-2">
+          <label htmlFor="email" className="text-sm font-semibold">
+            Email
+          </label>
+          <Input
             id="email"
             type="email"
             name="email"
             value={data.email}
-            autoComplete="username"
-            isFocused={true}
             onChange={(e) => setData('email', e.target.value)}
           />
-          <InputError message={errors.email} className="mt-2" />
+          {errors.email && (
+            <div className="flex items-center gap-x-1 text-red-500 text-sm font-normal ml-1">
+              <XCircle size={20} className="stroke-[1]" />
+              {errors.email}
+            </div>
+          )}
         </div>
-
-        <div className="mt-4">
-          <InputLabel htmlFor="password" value="Password" />
-          <TextInput
+        <div className="mt-4 flex flex-col gap-y-2">
+          <label htmlFor="password" className="text-sm font-semibold">
+            Password
+          </label>
+          <Input
             id="password"
             type="password"
             name="password"
             value={data.password}
-            className="mt-1 block w-full"
-            autoComplete="current-password"
             onChange={(e) => setData('password', e.target.value)}
           />
-
-          <InputError message={errors.password} className="mt-2" />
+          {errors.email && (
+            <div className="flex items-center gap-x-1 text-red-500 text-sm font-normal ml-1">
+              <XCircle size={20} className="stroke-[1]" />
+              {errors.email}
+            </div>
+          )}
         </div>
 
         <div className="block mt-4">
@@ -73,7 +79,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
           </label>
         </div>
 
-        <div className="flex items-center justify-end mt-4">
+        <div className="flex items-center justify-between mt-4">
           {canResetPassword && (
             <Link
               href={route('password.request')}
@@ -82,10 +88,13 @@ export default function Login({ status, canResetPassword }: { status?: string, c
               Forgot your password?
             </Link>
           )}
-
-          <PrimaryButton className="ml-4" disabled={processing}>
+          <Button
+            variant={'default'}
+            disabled={processing}
+            type="submit"
+          >
             Log in
-          </PrimaryButton>
+          </Button>
         </div>
       </form>
     </GuestLayout>

@@ -21,24 +21,24 @@ import { Input } from "@/shadcn/ui/input";
 
 const FormSchema = z.object({
   status: z.string(),
-  guide_number: z.string({ required_error: "Guide Number is required" }),
+  guideNumber: z.string({ required_error: "Guide Number is required" }),
 });
 
 interface UpdateStatusSelectProps {
   status: string;
-  guide_number: string | null;
-  handleUpdate: (data: { status: string, guide_number: string | null }) => void;
+  guideNumber: string | null;
+  handleUpdate: (data: { status: string, guideNumber: string | null }) => void;
 }
 export default function UpdateStatusSelect({
   status,
-  guide_number,
+  guideNumber,
   handleUpdate
 }: UpdateStatusSelectProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       status,
-      guide_number: guide_number ?? ""
+      guideNumber: guideNumber ?? ""
     }
   });
 
@@ -52,7 +52,7 @@ export default function UpdateStatusSelect({
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
           <FormField
             control={form.control}
-            name="guide_number"
+            name="guideNumber"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Guide Number</FormLabel>

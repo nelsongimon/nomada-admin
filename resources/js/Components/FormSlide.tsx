@@ -33,7 +33,7 @@ export default function FormSlide({
     label: "",
     action: "",
     position: "",
-    order: 0
+    order: 1
   });
 
   const handleSubmit = (event: any) => {
@@ -48,6 +48,7 @@ export default function FormSlide({
       onError: () => {
         setIsLoading(false);
       },
+      preserveScroll: true,
     });
   }
 
@@ -98,7 +99,7 @@ export default function FormSlide({
             <div className="col-span-1 flex flex-col gap-y-2">
               <Input
                 type="number"
-                min={0}
+                min={1}
                 placeholder="Order"
                 value={data.order}
                 onChange={(e) => setData("order", Number(e.target.value))}

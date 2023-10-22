@@ -22,9 +22,9 @@ export default function CategoryItem({
           className="object-cover w-full h-full"
         />
       </div>
-      <div className="ml-5 grid grid-cols-12 gap-x-12 flex-1 items-center">
+      <div className="ml-5 flex gap-x-12 flex-1 justify-between items-center">
         {/* Name and Slug */}
-        <div className="col-span-4 flex flex-col gap-y-3">
+        <div className="flex flex-col gap-y-3">
           <div className="flex gap-x-3">
             <div className="text-sm font-medium">Name:</div>
             <div className="text-sm font-medium">{category.name}</div>
@@ -39,7 +39,7 @@ export default function CategoryItem({
           </div>
         </div>
         {/*  Label and Action */}
-        <div className="col-span-5 flex flex-col gap-y-3">
+        <div className="flex flex-col gap-y-3">
           <div className="flex gap-x-3">
             <div className="text-sm font-medium">Order:</div>
             <div className="text-sm font-medium">{category.order}</div>
@@ -50,7 +50,7 @@ export default function CategoryItem({
           </div>
         </div>
         {/* Edit and Delete */}
-        <div className="col-span-3 flex gap-x-4">
+        <div className="flex gap-x-4">
           <Button
             variant={"secondary"}
             onClick={() => handleEdit(category)}

@@ -14,7 +14,7 @@ class OrderFactory extends Factory
   public function definition()
   {
     return [
-      'uuid' => Uuid::uuid4(),
+      'id' => Uuid::uuid4(),
       'orderCode' => $this->faker->unique()->randomNumber(6),
       'status' => $this->faker->randomElement(['pending', 'processing', 'completed', 'cancelled']),
       'products' => json_encode([$this->faker->word(), $this->faker->word(), $this->faker->word()]),

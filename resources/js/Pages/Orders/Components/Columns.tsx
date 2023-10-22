@@ -3,7 +3,7 @@
 import { Button } from "@/shadcn/ui/button";
 import { Link } from "@inertiajs/react";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown, Eye, List } from "lucide-react";
 import { format } from 'date-fns';
 import { Order } from "@/types";
 import Status from "@/Components/Status";
@@ -91,17 +91,18 @@ export const columns: ColumnDef<Order>[] = [
     id: "edit",
     enableHiding: false,
     cell: ({ row }) => {
-      const uuid = row.original.uuid;
-      return <Link href={`/orders/${uuid}`}>
-        <span className="
-          underline-offset-4
-          hover:underline
-          cursor-pointer
-          duration-300
-        ">
-          Details
-        </span>
-      </Link>
+      const id = row.original.id;
+      return (
+        <Link href={route("orders.show", id)}>
+          <Button
+            variant="outline"
+            size={"sm"}
+            className="flex gap-x-1 items-center"
+          >
+            Details <List size={15} className="stroke-[1.5]" />
+          </Button>
+        </Link>
+      )
     }
   }
 ]

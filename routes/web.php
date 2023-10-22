@@ -5,8 +5,12 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\StyleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\AttributeValueController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TagController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,6 +38,10 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::resource('/users', UserController::class)
+    ->only(['index', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
 
 Route::resource('/orders', OrderController::class)
     ->only(['index', 'show', 'store', 'update'])
@@ -63,6 +71,29 @@ Route::resource('/attributes', AttributeController::class)
 Route::resource('/attribute-values', AttributeValueController::class)
     ->only(['index', 'store', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
+
+Route::resource('/tags', TagController::class)
+    ->only(['index', 'store', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+
+
+Route::get('/products/{id}/duplicate', [ProductController::class, 'duplicate'])
+    ->middleware(['auth', 'verified'])->name('products.duplicate');
+Route::get('/products/not-published', [ProductController::class, 'notPublished'])
+    ->middleware(['auth', 'verified'])->name('products.notPublished');
+Route::post('/products/check', [ProductController::class, 'checkSlug'])
+    ->middleware(['auth', 'verified']);
+Route::resource('/products', ProductController::class)
+    ->middleware(['auth', 'verified']);
+
+Route::resource('/images', ImageController::class)
+    ->only(['index', 'destroy'])
+    ->middleware(['auth', 'verified']);
+
+Route::post('/images/upload', [ImageController::class, 'upload'])
+    ->middleware(['auth', 'verified']);
+
+
 
 
 Route::middleware('auth')->group(function () {

@@ -5,6 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
+import { Button } from '@/shadcn/ui/button';
 
 export default function UpdatePasswordForm({ className = '' }: { className?: string }) {
     const passwordInput = useRef<HTMLInputElement>();
@@ -47,8 +48,10 @@ export default function UpdatePasswordForm({ className = '' }: { className?: str
             </header>
 
             <form onSubmit={updatePassword} className="mt-6 space-y-6">
-                <div>
-                    <InputLabel htmlFor="current_password" value="Current Password" />
+                <div className="flex flex-col gap-y-2">
+                    <label htmlFor="name" className="text-sm font-semibold">
+                        Current Password
+                    </label>
 
                     <TextInput
                         id="current_password"
@@ -63,7 +66,7 @@ export default function UpdatePasswordForm({ className = '' }: { className?: str
                     <InputError message={errors.current_password} className="mt-2" />
                 </div>
 
-                <div>
+                <div className="flex flex-col gap-y-2">
                     <InputLabel htmlFor="password" value="New Password" />
 
                     <TextInput
@@ -79,7 +82,7 @@ export default function UpdatePasswordForm({ className = '' }: { className?: str
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
-                <div>
+                <div className="flex flex-col gap-y-2">
                     <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
 
                     <TextInput
@@ -95,7 +98,7 @@ export default function UpdatePasswordForm({ className = '' }: { className?: str
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <Button disabled={processing}>Save</Button>
 
                     <Transition
                         show={recentlySuccessful}

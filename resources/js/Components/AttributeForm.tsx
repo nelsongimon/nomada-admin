@@ -60,8 +60,8 @@ export default function AttributeForm({
       <form onSubmit={handleSubmit}>
         <div className="flex gap-x-5">
           <div className="flex flex-col gap-y-2">
-            <div className="flex gap-x-2 items-center font-semibold">
-              <label htmlFor="name" className="text-sm">
+            <div className="flex gap-x-2 items-center">
+              <label htmlFor="name" className="text-sm font-semibold">
                 Name
               </label>
               <Input
@@ -79,8 +79,8 @@ export default function AttributeForm({
             )}
           </div>
           <div className="flex flex-col gap-y-2">
-            <div className="flex gap-x-2 items-center font-semibold">
-              <label htmlFor="order" className="text-sm">
+            <div className="flex gap-x-2 items-center">
+              <label htmlFor="order" className="text-sm font-semibold">
                 Order
               </label>
               <Input

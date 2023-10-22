@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attribute;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class AttributeController extends Controller
@@ -18,8 +20,11 @@ class AttributeController extends Controller
             $query->orderBy('order', 'asc');
         }])->orderBy('order', 'asc')->get();
 
+        $tags = Tag::all();
+
         return Inertia::render('Attributes/Index', [
             'attributes' =>  $attributes,
+            'tags' => $tags,
         ]);
     }
 
@@ -67,6 +72,11 @@ class AttributeController extends Controller
     public function destroy(string $id)
     {
         $attribute = Attribute::find($id);
+
+        foreach ($attribute->attributeValues as $value) {
+            DB::table('attribute_value_product')->where('attribute_value_id', $value->id)->delete();
+        }
+
         $attribute->delete();
 
         return to_route('attributes.index');

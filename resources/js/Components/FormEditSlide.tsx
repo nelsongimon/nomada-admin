@@ -107,6 +107,7 @@ export default function FormEditSlide({
               <Input
                 type="number"
                 placeholder="Order"
+                min={1}
                 value={data.order}
                 onChange={(e) => setData("order", Number(e.target.value))}
               />

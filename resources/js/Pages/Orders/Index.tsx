@@ -6,7 +6,6 @@ import { columns } from './Components/Columns';
 
 
 export default function Orders({ auth, orders }: PageProps) {
-  console.log(orders);
 
   return (
     <AuthenticatedLayout

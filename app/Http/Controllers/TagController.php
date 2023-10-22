@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class TagController extends Controller
@@ -15,8 +16,8 @@ class TagController extends Controller
     {
         $tags = Tag::all();
 
-        return Inertia::render('Attributes/Index', [
-            'tags' =>  $tags
+        return response()->json([
+            'tags' => $tags
         ]);
     }
 
@@ -59,6 +60,7 @@ class TagController extends Controller
     public function destroy(string $id)
     {
         $tag = Tag::find($id);
+        DB::table('product_tag')->where('tag_id', $tag->id)->delete();
         $tag->delete();
 
         return to_route('attributes.index');

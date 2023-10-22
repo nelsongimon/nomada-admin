@@ -130,7 +130,7 @@ export default function AttributeItem({
           </div>
           <Table>
             <TableHeader>
-              <TableRow>
+              <TableRow className="hover:bg-white">
                 <TableHead>Order</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Slug</TableHead>
@@ -142,7 +142,7 @@ export default function AttributeItem({
             </TableHeader>
             <TableBody>
               {attribute.attribute_values.map((value) => (
-                <TableRow key={value.id}>
+                <TableRow key={value.id} className="hover:bg-white">
                   <TableCell className="font-medium">{value.order}</TableCell>
                   <TableCell>{value.name}</TableCell>
                   <TableCell>{value.slug}</TableCell>

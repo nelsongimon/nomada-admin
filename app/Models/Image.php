@@ -10,8 +10,8 @@ class Image extends Model
 {
     use HasFactory;
 
-    public function product(): BelongsTo
-    {
-        return $this->belongsTo(Product::class, 'productUuid');
-    }
+    // public function product(): BelongsTo
+    // {
+    //     return $this->belongsTo(Product::class, 'productUuid');
+    // }
 }

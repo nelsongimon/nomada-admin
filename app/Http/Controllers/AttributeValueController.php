@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AttributeValue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class AttributeValueController extends Controller
@@ -96,6 +97,7 @@ class AttributeValueController extends Controller
     public function destroy(string $id)
     {
         $value = AttributeValue::find($id);
+        DB::table('attribute_value_product')->where('attribute_value_id', $value->id)->delete();
         $value->delete();
 
         return to_route('attributes.index');

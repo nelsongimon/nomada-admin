@@ -47,6 +47,7 @@ export default function FormEditCategory({
       onError: () => {
         setIsLoading(false);
       },
+      preserveScroll: true,
     });
   }
 
@@ -76,7 +77,11 @@ export default function FormEditCategory({
     axios.post('/categories/check', {
       slug: data.slug
     }).then((res) => {
-      toast.success("Slug is available");
+      if (res.data.slug) {
+        toast.success("Slug is available");
+      } else {
+        toast.error("Slug not available");
+      }
       setCheckSlug(res.data.slug);
     }).
       catch((err) => {
@@ -118,6 +123,7 @@ export default function FormEditCategory({
               <Input
                 type="number"
                 placeholder="Order"
+                min={1}
                 value={data.order}
                 onChange={(e) => setData("order", Number(e.target.value))}
               />

@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products_attributes_values', function (Blueprint $table) {
+        Schema::create('attribute_value_product', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('productUuid')->references('uuid')->on('products');
-            $table->foreignId('attributeValueId')->references('id')->on('attribute_values');
+            $table->foreignUuid('product_id')->nullable()->references('id')->on('products');
+            $table->foreignId('attribute_value_id')->nullable()->references('id')->on('attribute_values');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products_attributes_values');
+        Schema::dropIfExists('attribute_value_product');
     }
 };

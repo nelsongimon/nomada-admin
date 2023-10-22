@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Style;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class StyleController extends Controller
@@ -110,6 +111,7 @@ class StyleController extends Controller
     public function destroy(string $id)
     {
         $style = Style::find($id);
+        DB::table('products')->where('styleId', $style->id)->update(['styleId' => null]);
         $style->delete();
 
         return to_route('styles.index');

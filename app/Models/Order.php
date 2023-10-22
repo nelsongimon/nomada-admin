@@ -12,7 +12,7 @@ class Order extends Model
 
     public $incrementing = false;
 
-    protected $primaryKey = 'uuid';
+    // protected $primaryKey = 'uuid';
     // protected $keyType = 'string';
 
     // protected $casts = [

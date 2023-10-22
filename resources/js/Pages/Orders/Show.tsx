@@ -13,20 +13,20 @@ import { toast } from "react-hot-toast";
 export default function Order({ auth, order }: PageProps) {
   console.log(order);
   const [shippingDate, setShippingDate] = useState<Date | undefined>(() => {
-    let date = new Date(order.shipping_date as string);
+    let date = new Date(order.shippingDate as string);
     return new Date(date.setDate(date.getDate() + 1));
   });
 
-  const handleUpdate = (data: { status: string, guide_number: string | null }) => {
-    if (data.status === "completed" && data.guide_number === "") {
+  const handleUpdate = (data: { status: string, guideNumber: string | null }) => {
+    if (data.status === "completed" && data.guideNumber === "") {
       toast.error("Guide number is required");
       return;
     }
 
-    router.patch(`/orders/${order.uuid}`, {
+    router.patch(`/orders/${order.id}`, {
       status: data.status,
-      guide_number: data.guide_number,
-      shipping_date: shippingDate
+      guideNumber: data.guideNumber,
+      shippingDate: shippingDate
     }, {
       onSuccess: () => {
         toast.success('Order updated');
@@ -140,7 +140,7 @@ export default function Order({ auth, order }: PageProps) {
                           <div className="mt-3">
                             <UpdateStatusSelect
                               status={order.status}
-                              guide_number={order.guideNumber}
+                              guideNumber={order.guideNumber}
                               handleUpdate={handleUpdate}
                             />
                           </div>

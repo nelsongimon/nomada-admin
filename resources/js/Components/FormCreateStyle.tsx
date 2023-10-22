@@ -27,13 +27,11 @@ export default function FormCreateStyle({
     name: "",
     description: "",
     slug: "",
-    order: 0
+    order: 1
   });
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    console.log(data);
-
     post(route("styles.store"), {
       onStart: () => setIsLoading(true),
       onSuccess: () => {
@@ -44,6 +42,7 @@ export default function FormCreateStyle({
       onError: () => {
         setIsLoading(false);
       },
+      preserveScroll: true,
     });
   }
 
@@ -72,7 +71,7 @@ export default function FormCreateStyle({
       setCheckSlug(false);
       return;
     }
-    axios.post('/categories/check', {
+    axios.post('/styles/check', {
       slug: data.slug
     }).then((res) => {
       if (res.data.slug) {
@@ -121,7 +120,7 @@ export default function FormCreateStyle({
               <Input
                 type="number"
                 placeholder="Order"
-                min={0}
+                min={1}
                 value={data.order}
                 onChange={(e) => setData("order", Number(e.target.value))}
               />
