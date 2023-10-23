@@ -24,7 +24,7 @@ export default function EditProduct({ auth, categories, styles, tags, attributes
 
   const [checkSlug, setCheckSlug] = useState(true);
   const [selectedTags, setSelectedTags] = useState<Tag[]>(product.tags);
-  const [specificationImage, setSpecificationImage] = useState<File | string | null>(product.specificationImage);
+  const [specificationImage, setSpecificationImage] = useState<File | string | null>(null);
   const [selectedImages, setSelectedImages] = useState<Image[]>(product.images);
   const [selectedAttributes, setSelectedAttributes] = useState<number[]>(product.attribute_values?.map((value) => value.id));
   const [isLoading, setIsLoading] = useState(false);
