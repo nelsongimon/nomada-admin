@@ -15,4 +15,7 @@ export default defineConfig({
             '@': '/resources/js',
         },
     },
+    build: {
+        base: 'https://nomada-admin-production.up.railway.app/'
+    }
 });
