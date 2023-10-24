@@ -14,8 +14,5 @@ export default defineConfig({
         alias: {
             '@': '/resources/js',
         },
-    },
-    build: {
-        base: 'https://nomada-admin-production.up.railway.app/'
     }
 });
