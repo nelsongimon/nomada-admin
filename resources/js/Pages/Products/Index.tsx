@@ -7,8 +7,13 @@ import { Button } from '@/shadcn/ui/button';
 import { PlusCircle } from 'lucide-react';
 
 
-export default function Products({ auth, products }: PageProps) {
-  console.log(products);
+export default function Products({
+  auth,
+  products,
+  notPublishedProductsCount,
+  featuredProductsCount,
+  newProductsCount
+}: PageProps) {
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -20,10 +25,26 @@ export default function Products({ auth, products }: PageProps) {
           <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             {/* Container */}
             <div className="p-6">
-              <div className="flex justify-between">
-                <h2 className="text-2xl font-bold">
-                  All products
-                </h2>
+              <div className="flex justify-between items-center">
+                <div className="flex gap-x-4 items-end">
+                  <h2 className="text-2xl font-bold">
+                    All products
+                  </h2>
+                  <div className="flex gap-x-2">
+                    <span className="text-xs text-gray-500 font-semibold">
+                      Published ({products.length})
+                    </span>
+                    <span className="text-xs text-gray-500 font-semibold">
+                      Not Published ({notPublishedProductsCount})
+                    </span>
+                    <span className="text-xs text-gray-500 font-semibold">
+                      Featured ({featuredProductsCount})
+                    </span>
+                    <span className="text-xs text-gray-500 font-semibold">
+                      New ({newProductsCount})
+                    </span>
+                  </div>
+                </div>
                 <div>
                   <Link href={route('products.create')}>
                     <Button

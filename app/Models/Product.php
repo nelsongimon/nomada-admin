@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Product extends Model
 {
     use HasFactory;
 
     public $incrementing = false;
+    public static $snakeAttributes = false;
 
     public function category(): BelongsTo
     {
@@ -38,4 +40,13 @@ class Product extends Model
     {
         return $this->belongsToMany(Image::class);
     }
+
+    // public function getSpecificationImageAttribute($value)
+    // {
+    //     if (is_null($value)) {
+    //         return null;
+    //     }
+    //     $url = env('APP_URL') . "/" . $value;
+    //     return $url;
+    // }
 }

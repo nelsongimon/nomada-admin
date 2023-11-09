@@ -117,6 +117,26 @@ export const columns: ColumnDef<Product>[] = [
     }
   },
   {
+    accessorKey: "isNew",
+    header: () => <span className="text-black">New</span>,
+    cell: ({ row }) => {
+      const isNew = row.original.isNew as boolean;
+      return (
+        <Switch
+          checked={isNew}
+          className={`${isNew ? 'bg-green-600' : 'bg-gray-200'
+            } relative inline-flex h-6 w-11 items-center rounded-full`}
+        >
+          <span className="sr-only">isNew</span>
+          <span
+            className={`${isNew ? 'translate-x-6' : 'translate-x-1'
+              } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+          />
+        </Switch>
+      )
+    }
+  },
+  {
     header: () => {
       return (
         <div className="flex justify-end">

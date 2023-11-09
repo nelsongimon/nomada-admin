@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->boolean('visibility');
             $table->boolean('featured');
+            $table->boolean('isNew');
             $table->string('specificationImage')->nullable();
             $table->foreignId('styleId')->nullable()->references('id')->on('styles');
             $table->foreignId('categoryId')->nullable()->references('id')->on('categories');

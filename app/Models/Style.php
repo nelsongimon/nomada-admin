@@ -14,4 +14,19 @@ class Style extends Model
     {
         return $this->hasMany(Product::class, 'styleId');
     }
+
+    // public function getBillboardAttribute($value)
+    // {
+    //     if (is_null($value)) {
+    //         return null;
+    //     }
+    //     $url = env('APP_URL') . "/" . $value;
+    //     return $url;
+    // }
+
+    // public function getImageAttribute($value)
+    // {
+    //     $url = env('APP_URL') . "/" . $value;
+    //     return $url;
+    // }
 }

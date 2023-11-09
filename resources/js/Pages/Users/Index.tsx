@@ -135,7 +135,6 @@ export default function Products({ auth, users }: PageProps) {
                         <TableHead>Name</TableHead>
                         <TableHead>Email</TableHead>
                         <TableHead>Role</TableHead>
-                        <TableHead>Verified</TableHead>
                         <TableHead className="text-right">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -146,17 +145,6 @@ export default function Products({ auth, users }: PageProps) {
                           <TableCell>{user.email}</TableCell>
                           <TableCell>
                             <RoleBadge role={user.role} />
-                          </TableCell>
-                          <TableCell>
-                            {user.email_verified_at ? (
-                              <span>
-                                <MailCheck size={20} className="stroke-[1.5] text-green-600" />
-                              </span>
-                            ) : (
-                              <span>
-                                <MailWarning size={20} className="stroke-[1.5] text-orange-600" />
-                              </span>
-                            )}
                           </TableCell>
                           <TableCell>
                             <div className="flex w-full h-full gap-x-2 justify-end items-center">

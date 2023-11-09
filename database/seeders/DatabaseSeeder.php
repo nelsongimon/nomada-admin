@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
-            'name' => 'Nelson Gimon',
+            'name' => 'Nelson Gimón',
             'email' => 'nelson.gimon@gmail.com',
-            'password' => Hash::make('nelson.31'),
+            'password' => Hash::make('n3ls0ng1m0n.31'),
         ]);
 
-        Order::factory()->count(30)->create();
+        // Order::factory()->count(30)->create();
     }
 }

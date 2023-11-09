@@ -25,8 +25,15 @@ class ProductController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        $newProductsCount = Product::where('isNew', 1)->count();
+        $featuredProductsCount = Product::where('featured', 1)->count();
+        $notPublishedProductsCount = Product::where('visibility', 0)->count();
+
         return Inertia::render('Products/Index', [
-            'products' => $products
+            'products' => $products,
+            'newProductsCount' => $newProductsCount,
+            'featuredProductsCount' => $featuredProductsCount,
+            'notPublishedProductsCount' => $notPublishedProductsCount
         ]);
     }
 
@@ -63,6 +70,7 @@ class ProductController extends Controller
             'quantity' => ['required'],
             'visibility' => ['required'],
             'featured' => ['required'],
+            'isNew' => ['required'],
         ]);
 
         $product = new Product();
@@ -72,6 +80,7 @@ class ProductController extends Controller
         $product->quantity = $request->quantity;
         $product->visibility = $request->visibility;
         $product->featured = $request->featured;
+        $product->isNew = $request->isNew;
         $product->salePrice = $request->salePrice;
 
         if ($request->filled('model')) {
@@ -95,6 +104,8 @@ class ProductController extends Controller
         }
 
         $product->save();
+
+
 
         $product->attributeValues()->attach($request->input('attributes'));
         $product->tags()->attach($request->input('tags'));
@@ -165,6 +176,7 @@ class ProductController extends Controller
             'quantity' => ['required'],
             'visibility' => ['required'],
             'featured' => ['required'],
+            'isNew' => ['required'],
         ]);
 
         $product = Product::find($id);
@@ -173,6 +185,7 @@ class ProductController extends Controller
         $product->quantity = $request->quantity;
         $product->visibility = $request->visibility;
         $product->featured = $request->featured;
+        $product->isNew = $request->isNew;
         $product->salePrice = $request->salePrice;
 
         if ($request->filled('model')) {

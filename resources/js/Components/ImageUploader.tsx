@@ -87,9 +87,9 @@ export default function ImageUploader({
             />
           </div>
         ) : (
-          <div className="">
+          <>
             {image ? (
-              <div className="w-full h-full overflow-hidden relative">
+              <div className="w-full h-full overflow-hidden relative bg-gray-color rounded-lg">
                 <Button
                   variant={"destructive"}
                   size={"sm"}
@@ -122,7 +122,7 @@ export default function ImageUploader({
                 </span>
               </label>
             )}
-          </div>
+          </>
         )}
       </div>
       <input

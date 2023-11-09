@@ -26,10 +26,11 @@ export default function EditProduct({ auth, categories, styles, tags, attributes
   const [selectedTags, setSelectedTags] = useState<Tag[]>(product.tags);
   const [specificationImage, setSpecificationImage] = useState<File | string | null>(null);
   const [selectedImages, setSelectedImages] = useState<Image[]>(product.images);
-  const [selectedAttributes, setSelectedAttributes] = useState<number[]>(product.attribute_values?.map((value) => value.id));
+  const [selectedAttributes, setSelectedAttributes] = useState<number[]>(product.attributeValues?.map((value) => value.id));
   const [isLoading, setIsLoading] = useState(false);
   const [visibility, setVisibility] = useState(product.visibility);
   const [featured, setFeatured] = useState(product.featured);
+  const [isNew, setIsNew] = useState(product.isNew);
   const { data, setData, errors, post } = useForm({
     name: product.name ?? "",
     slug: product.slug ?? "",
@@ -42,6 +43,7 @@ export default function EditProduct({ auth, categories, styles, tags, attributes
     styleId: product.style?.id ? String(product.style.id) : "",
     visibility: product.visibility,
     featured: product.featured,
+    isNew: product.isNew,
     specificationImage,
     images: selectedImages.map((image) => image.id),
     tags: selectedTags.map((tag) => tag.id),
@@ -121,6 +123,10 @@ export default function EditProduct({ auth, categories, styles, tags, attributes
   useEffect(() => {
     setData("featured", featured);
   }, [featured]);
+
+  useEffect(() => {
+    setData("isNew", isNew);
+  }, [isNew]);
 
   return (
     <AuthenticatedLayout
@@ -392,6 +398,22 @@ export default function EditProduct({ auth, categories, styles, tags, attributes
                         <span className="sr-only">featured</span>
                         <span
                           className={`${featured ? 'translate-x-6' : 'translate-x-1'
+                            } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                        />
+                      </Switch>
+                    </div>
+                    {/* New */}
+                    <div className="flex gap-x-3 items-center px-4 py-5 bg-gray-50 rounded-md">
+                      <h4 className="font-semibold text-base">New</h4>
+                      <Switch
+                        checked={isNew}
+                        onChange={() => setIsNew(current => !current)}
+                        className={`${isNew ? 'bg-green-600' : 'bg-gray-200'
+                          } relative inline-flex h-6 w-11 items-center rounded-full`}
+                      >
+                        <span className="sr-only">isNew</span>
+                        <span
+                          className={`${isNew ? 'translate-x-6' : 'translate-x-1'
                             } inline-block h-4 w-4 transform rounded-full bg-white transition`}
                         />
                       </Switch>

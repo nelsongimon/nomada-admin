@@ -19,12 +19,18 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-
-Route::get('/search/{search}', [ApiController::class, 'search']);
-Route::get('/featured-products', [ApiController::class, 'featuredProducts']);
-Route::get('/products', [ApiController::class, 'getProducts']);
-Route::get('/styles', [ApiController::class, 'getStyles']);
-Route::get('/styles/{style}', [ApiController::class, 'getStyleWithProducts']);
-Route::get('/attributes/{attribute}', [ApiController::class, 'getAttributeWithValues']);
-Route::get('/slides', [ApiController::class, 'getSlides']);
-Route::get('/filter', [ApiController::class, 'filter']);
+Route::middleware('api.key')->group(function () {
+  Route::get('/products/{slug}', [ApiController::class, 'getProduct']);
+  Route::get('/search/{search}', [ApiController::class, 'search']);
+  Route::get('/featured-products/{limit?}', [ApiController::class, 'featuredProducts']);
+  Route::get('/new-products/{limit?}', [ApiController::class, 'NewProducts']);
+  Route::get('/products', [ApiController::class, 'getProducts']);
+  Route::get('/styles', [ApiController::class, 'getStyles']);
+  Route::get('/categories', [ApiController::class, 'getCategories']);
+  Route::get('/styles/{style}', [ApiController::class, 'getStyleWithProducts']);
+  Route::get('/attributes/{attribute}', [ApiController::class, 'getAttributeWithValues']);
+  Route::get('/slides', [ApiController::class, 'getSlides']);
+  Route::get('/filter', [ApiController::class, 'filter']);
+  Route::get('/styles/{style}/filter', [ApiController::class, 'filterWithStyle']);
+  Route::get('/search/{search}/filter', [ApiController::class, 'filterWithSearch']);
+});

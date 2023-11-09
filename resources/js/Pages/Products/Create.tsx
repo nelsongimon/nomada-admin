@@ -30,6 +30,7 @@ export default function CreateProduct({ auth, categories, styles, tags, attribut
   const [isLoading, setIsLoading] = useState(false);
   const [visibility, setVisibility] = useState(true);
   const [featured, setFeatured] = useState(false);
+  const [isNew, setIsNew] = useState(false);
   const { data, setData, errors, post } = useForm({
     name: "",
     slug: "",
@@ -42,6 +43,7 @@ export default function CreateProduct({ auth, categories, styles, tags, attribut
     styleId: "",
     visibility,
     featured,
+    isNew,
     specificationImage,
     images: selectedImages.map((image) => image.id),
     tags: selectedTags.map((tag) => tag.id),
@@ -103,6 +105,10 @@ export default function CreateProduct({ auth, categories, styles, tags, attribut
   useEffect(() => {
     setData("featured", featured);
   }, [featured]);
+
+  useEffect(() => {
+    setData("isNew", isNew);
+  }, [isNew]);
 
   useEffect(() => {
     setData("specificationImage", specificationImage);
@@ -390,6 +396,22 @@ export default function CreateProduct({ auth, categories, styles, tags, attribut
                         <span className="sr-only">featured</span>
                         <span
                           className={`${featured ? 'translate-x-6' : 'translate-x-1'
+                            } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                        />
+                      </Switch>
+                    </div>
+                    {/* New */}
+                    <div className="flex gap-x-3 items-center px-4 py-5 bg-gray-50 rounded-md">
+                      <h4 className="font-semibold text-base">New</h4>
+                      <Switch
+                        checked={isNew}
+                        onChange={() => setIsNew(current => !current)}
+                        className={`${isNew ? 'bg-green-600' : 'bg-gray-200'
+                          } relative inline-flex h-6 w-11 items-center rounded-full`}
+                      >
+                        <span className="sr-only">isNew</span>
+                        <span
+                          className={`${isNew ? 'translate-x-6' : 'translate-x-1'
                             } inline-block h-4 w-4 transform rounded-full bg-white transition`}
                         />
                       </Switch>

@@ -20,4 +20,13 @@ class AttributeValue extends Model
     {
         return $this->belongsToMany(Product::class);
     }
+
+    // public function getImageAttribute($value)
+    // {
+    //     if (is_null($value)) {
+    //         return null;
+    //     }
+    //     $url = env('APP_URL') . "/" . $value;
+    //     return $url;
+    // }
 }

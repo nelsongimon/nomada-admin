@@ -21,6 +21,9 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     product: Product;
     tags: Tag[];
     users: User[];
+    newProductsCount: number;
+    featuredProductsCount: number;
+    notPublishedProductsCount: number;
 };
 
 export type Order = {
@@ -100,13 +103,14 @@ export type Order = {
     quantity: number | null;
     visibility: boolean;
     featured: boolean;
+    isNew: boolean;
     model: string | null;
     created_at: string;
     category: Category;
     style: Style;
     images: Image[];
     tags: Tag[];
-    attribute_values: AttributeValue[];
+    attributeValues: AttributeValue[];
     specificationImage: string | null;
   }
 
