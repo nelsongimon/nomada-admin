@@ -10,12 +10,12 @@ interface ActiveSwitchProps {
 export default function ActiveSwitch({
   slide
 }: ActiveSwitchProps) {
-  const [enabled, setEnabled] = useState(slide.active);
+  const [enabled, setEnabled] = useState(Boolean(Number(slide.active)));
 
   const handleChange = () => {
     setEnabled(!enabled);
     router.patch(route('slides.update', slide.id), {
-      active: !slide.active
+      active: !Number(slide.active)
     }, {
       preserveScroll: true
     });

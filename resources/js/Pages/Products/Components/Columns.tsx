@@ -65,7 +65,7 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "quantity",
     header: () => <span className="text-black">Quantity</span>,
     cell: ({ row }) => {
-      const quantity = row.original.quantity
+      const quantity = Number(row.original.quantity);
       return (
         <div>
           {quantity === 0 ? (
@@ -100,7 +100,7 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "featured",
     header: () => <span className="text-black">Featured</span>,
     cell: ({ row }) => {
-      const featured = row.original.featured as boolean;
+      const featured = Boolean(Number(row.original.featured));
       return (
         <Switch
           checked={featured}
@@ -120,7 +120,7 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "isNew",
     header: () => <span className="text-black">New</span>,
     cell: ({ row }) => {
-      const isNew = row.original.isNew as boolean;
+      const isNew = Boolean(Number(row.original.isNew));
       return (
         <Switch
           checked={isNew}

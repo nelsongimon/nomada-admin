@@ -52,6 +52,7 @@ export type Order = {
     label: string;
     action: string;
     position: string;
+    color: string;
     active: boolean;
   }
 

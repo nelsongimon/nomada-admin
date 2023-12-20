@@ -22,7 +22,7 @@ export default function SlideItem({
         <img
           src={slide.desktopImage}
           alt="Slide image"
-          className={cn(`object-cover w-full h-full`, slide.active ? 'opacity-100' : 'opacity-30')}
+          className={cn(`object-cover w-full h-full`, Number(slide.active) ? 'opacity-100' : 'opacity-30')}
         />
       </div>
       <div className="ml-10 grid grid-cols-12 gap-x-12 flex-1 items-center">

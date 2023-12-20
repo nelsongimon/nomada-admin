@@ -36,6 +36,7 @@ export default function FormEditSlide({
     label: slide.label,
     action: slide.action,
     position: slide.position,
+    color: slide.color,
     order: slide.order
   });
 
@@ -150,23 +151,43 @@ export default function FormEditSlide({
             </div>
           </div>
           {/* Position */}
-          <div className="col-span-1 flex flex-col gap-y-2">
-            <Select onValueChange={(value) => setData("position", value)} defaultValue={slide.position}>
-              <SelectTrigger>
-                <SelectValue placeholder="Position" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="left">Left</SelectItem>
-                <SelectItem value="center">Center</SelectItem>
-                <SelectItem value="right">Right</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.position && (
-              <div className="flex items-center gap-x-1 text-red-500 text-sm font-normal ml-1">
-                <XCircle size={20} className="stroke-[1]" />
-                {errors.position}
-              </div>
-            )}
+          <div className="grid grid-cols-2 gap-x-4">
+            <div className="col-span-1 flex flex-col gap-y-2">
+              <Select onValueChange={(value) => setData("position", value)} defaultValue={slide.position}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Position" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="left">Left</SelectItem>
+                  <SelectItem value="center">Center</SelectItem>
+                  <SelectItem value="right">Right</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.position && (
+                <div className="flex items-center gap-x-1 text-red-500 text-sm font-normal ml-1">
+                  <XCircle size={20} className="stroke-[1]" />
+                  {errors.position}
+                </div>
+              )}
+            </div>
+            <div className="col-span-1 flex flex-col gap-y-2">
+              <Select onValueChange={(value) => setData("color", value)} defaultValue={slide.color}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Color" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="white">White</SelectItem>
+                  <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="black">Black</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.color && (
+                <div className="flex items-center gap-x-1 text-red-500 text-sm font-normal ml-1">
+                  <XCircle size={20} className="stroke-[1]" />
+                  {errors.color}
+                </div>
+              )}
+            </div>
           </div>
           {/* Description */}
           <div className="flex flex-col gap-y-2">

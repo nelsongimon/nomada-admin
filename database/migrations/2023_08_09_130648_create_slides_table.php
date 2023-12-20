@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('label');
             $table->string('action');
             $table->string('position');
+            $table->string('color');
             $table->integer('order');
             $table->boolean('active');
             $table->timestamps();

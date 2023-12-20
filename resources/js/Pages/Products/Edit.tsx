@@ -28,9 +28,9 @@ export default function EditProduct({ auth, categories, styles, tags, attributes
   const [selectedImages, setSelectedImages] = useState<Image[]>(product.images);
   const [selectedAttributes, setSelectedAttributes] = useState<number[]>(product.attributeValues?.map((value) => value.id));
   const [isLoading, setIsLoading] = useState(false);
-  const [visibility, setVisibility] = useState(product.visibility);
-  const [featured, setFeatured] = useState(product.featured);
-  const [isNew, setIsNew] = useState(product.isNew);
+  const [visibility, setVisibility] = useState(Boolean(Number(product.visibility)));
+  const [featured, setFeatured] = useState(Boolean(Number(product.featured)));
+  const [isNew, setIsNew] = useState(Boolean(Number(product.isNew)));
   const { data, setData, errors } = useForm({
     name: product.name ?? "",
     slug: product.slug ?? "",
@@ -45,8 +45,8 @@ export default function EditProduct({ auth, categories, styles, tags, attributes
     featured: product.featured,
     isNew: product.isNew,
     specificationImage,
-    images: selectedImages.map((image) => image.id),
-    tags: selectedTags.map((tag) => tag.id),
+    images: selectedImages.map((image) => Number(image.id)),
+    tags: selectedTags.map((tag) => Number(tag.id)),
     attributes: selectedAttributes,
   });
 
@@ -111,11 +111,11 @@ export default function EditProduct({ auth, categories, styles, tags, attributes
   }, [specificationImage]);
 
   useEffect(() => {
-    setData("images", selectedImages.map((image) => image.id));
+    setData("images", selectedImages.map((image) => Number(image.id)));
   }, [selectedImages]);
 
   useEffect(() => {
-    setData("tags", selectedTags.map((tag) => tag.id));
+    setData("tags", selectedTags.map((tag) => Number(tag.id)));
   }, [selectedTags]);
 
   useEffect(() => {

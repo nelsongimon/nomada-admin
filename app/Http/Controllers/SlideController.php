@@ -26,6 +26,7 @@ class SlideController extends Controller
     {
         $request->validate([
             'position' => ['required', 'min:2'],
+            'color' => ['required', 'min:2'],
             'order' => ['required', 'integer'],
             'title' => ['required', 'min:2'],
             'description' => ['required', 'min:2'],
@@ -37,6 +38,7 @@ class SlideController extends Controller
 
         $slide = new Slide();
         $slide->position = $request->position;
+        $slide->color = $request->color;
         $slide->order = $request->order;
         $slide->title = $request->title;
         $slide->description = $request->description;
@@ -71,6 +73,10 @@ class SlideController extends Controller
 
         if ($request->filled('position')) {
             $slide->position = $request->position;
+        }
+
+        if ($request->filled('color')) {
+            $slide->color = $request->color;
         }
 
         if ($request->filled('order')) {

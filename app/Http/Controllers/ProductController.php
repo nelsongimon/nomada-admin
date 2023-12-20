@@ -169,6 +169,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $request->validate([
             'name' => ['required', 'min:2'],
             'slug' => ['required', 'min:2'],

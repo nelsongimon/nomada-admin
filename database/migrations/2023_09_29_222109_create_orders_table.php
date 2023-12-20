@@ -16,14 +16,12 @@ return new class extends Migration
       $table->uuid('id')->primary()->unique()->default(Uuid::uuid4());
       $table->string('orderCode')->unique();
       $table->string('status');
-      $table->json('products');
+      $table->json('products')->nullable();
       $table->decimal('totalAmountVen', 10, 2);
       $table->decimal('totalAmountUsd', 10, 2);
       $table->string('customerName');
       $table->string('customerEmail');
       $table->string('customerPhoneNumber');
-      $table->string('paymentMethod');
-      $table->string('shippingMethod');
       $table->date('shippingDate')->nullable();
       $table->string('guideNumber')->nullable();
       $table->timestamps();

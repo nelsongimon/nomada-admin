@@ -22,12 +22,13 @@ class ApiController extends Controller
     {
         $product = Product::with(['category', 'style', 'images', 'tags', 'attributeValues' => function ($query) {
             $query->with('attribute');
-            $query->orderBy('order', 'desc');
+            $query->orderBy('order', 'asc');
         }])->where('slug', $slug)->first();
 
         $relatedProducts = Product::with(['category', 'style', 'images', 'tags'])
             ->where('visibility', 1)
             ->where('categoryId', $product->category->id)
+            ->whereNot('slug', $slug)
             ->orderBy('updated_at', 'desc')
             ->limit(8)
             ->get();
@@ -35,6 +36,21 @@ class ApiController extends Controller
         return response()->json([
             'product' => $product,
             'relatedProducts' => $relatedProducts,
+        ]);
+    }
+
+    /**
+     * Retrieves the product ID.
+     *
+     * @param int $id The ID of the product.
+     * @return \Illuminate\Http\JsonResponse The JSON response containing the product.
+     */
+    public function getProductId($id)
+    {
+        $product = Product::with(['category', 'images'])->where('id', $id)->first();
+
+        return response()->json([
+            'product' => $product
         ]);
     }
     /**
@@ -252,6 +268,44 @@ class ApiController extends Controller
     }
 
     /**
+     * Retrieves a category with its associated products.
+     *
+     * @param Request $request The request object.
+     * @param string $category The category slug.
+     * @throws Some_Exception_Class Exception thrown if an error occurs.
+     * @return JsonResponse The JSON response containing the category and its products.
+     */
+    public function getCategoryWithProducts(Request $request, string $category)
+    {
+        if ($request->has('filter')) {
+            $attributeKeys = explode('_', $request->input('filter'));
+            $category = Category::with(['products' => function ($query) use ($attributeKeys) {
+                $query->with(['category', 'style', 'images', 'tags'])
+                    ->where(function ($query) use ($attributeKeys) {
+                        foreach ($attributeKeys as $attribute) {
+                            $values = explode(',', $attribute);
+                            $query->whereHas('attributeValues', function ($subquery) use ($values) {
+                                $subquery->whereIn('slug', $values);
+                            });
+                        }
+                    })
+                    ->where('visibility', 1)
+                    ->orderBy('created_at', 'desc');
+            }])->where('slug', $category)->first();
+        } else {
+            $category = Category::with(['products' => function ($query) {
+                $query->with(['category', 'style', 'images', 'tags'])
+                    ->where('visibility', 1)
+                    ->orderBy('created_at', 'desc');
+            }])->where('slug', $category)->first();
+        }
+
+        return response()->json([
+            'category' => $category
+        ]);
+    }
+
+    /**
      * Filters the data based on the given style and request values.
      *
      * @param Request $request The request object.
@@ -318,6 +372,84 @@ class ApiController extends Controller
                 $query->withCount(['products' => function ($query) use ($style) {
                     $query->whereHas('style', function ($query) use ($style) {
                         $query->where('slug', $style);
+                    })->where('visibility', 1);
+                }]);
+                $query->orderBy('order', 'asc');
+            }])->orderBy('order', 'asc')->get();
+        }
+
+        return response()->json([
+            'attributes' => $attributes
+        ]);
+    }
+
+    /**
+     * Filters the data with a specific category.
+     *
+     * @param Request $request The request object.
+     * @param mixed $category The category to filter by.
+     * @return \Illuminate\Http\JsonResponse The JSON response containing the filtered attributes.
+     */
+    public function filterWithCategory(Request $request, $category)
+    {
+        if ($request->has('values')) {
+            $attributeKeys = explode('_', $request->input('values'));
+
+            $attributes = Attribute::with(['attributeValues' => function ($query) use ($category) {
+                $query->withCount(['products' => function ($query) use ($category) {
+                    $query->whereHas('category', function ($query) use ($category) {
+                        $query->where('slug', $category);
+                    });
+                    $query->where('visibility', 1);
+                }]);
+                $query->orderBy('order', 'asc');
+            }])->orderBy('order', 'asc')->get();
+
+            $filteredProducts = Product::with('attributeValues')
+                ->whereHas('category', function ($query) use ($category) {
+                    $query->where('slug', $category);
+                })
+                ->where(function ($query) use ($attributeKeys) {
+                    foreach ($attributeKeys as $attribute) {
+                        $values = explode(',', $attribute);
+                        $query->whereHas('attributeValues', function ($subquery) use ($values) {
+                            $subquery->whereIn('slug', $values);
+                        });
+                    }
+                })
+                ->where('visibility', 1)
+                ->get();
+
+
+            foreach ($attributes as $attribute) {
+                $canUpdateCount = true;
+                foreach ($attributeKeys as $key) {
+                    $values = explode(',', $key);
+                    $intersection = array_intersect($values, $attribute->attributeValues->pluck('slug')->toArray());
+                    if (!empty($intersection)) {
+                        $canUpdateCount = false;
+                    }
+                }
+                foreach ($attribute->attributeValues as $value) {
+                    $counter =  0;
+                    $canUpdateCountValue = false;
+                    $hasSelectedValue = in_array($value->slug, $values);
+                    foreach ($filteredProducts as $product) {
+                        if ($product->attributeValues->contains('id', $value->id)) {
+                            $canUpdateCountValue = true;
+                            $counter =  $counter + 1;
+                        }
+                    }
+                    if ($canUpdateCount || $canUpdateCountValue || $hasSelectedValue) {
+                        $value->products_count = $counter;
+                    }
+                }
+            }
+        } else {
+            $attributes = Attribute::with(['attributeValues' => function ($query) use ($category) {
+                $query->withCount(['products' => function ($query) use ($category) {
+                    $query->whereHas('category', function ($query) use ($category) {
+                        $query->where('slug', $category);
                     })->where('visibility', 1);
                 }]);
                 $query->orderBy('order', 'asc');

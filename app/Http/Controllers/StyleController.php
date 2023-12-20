@@ -42,14 +42,14 @@ class StyleController extends Controller
             $image = $request->file('image');
             $originalName = $image->getClientOriginalName();
             $fileName = Carbon::now()->format('YmdHis') . '_' . $originalName;
-            $style->image = $image->storeAs('/images/categories', $fileName);
+            $style->image = $image->storeAs('/images/styles', $fileName);
         }
 
         if ($request->hasFile('billboard')) {
             $image = $request->file('billboard');
             $originalName = $image->getClientOriginalName();
             $fileName = Carbon::now()->format('YmdHis') . '_' . $originalName;
-            $style->billboard = $image->storeAs('/images/categories', $fileName);
+            $style->billboard = $image->storeAs('/images/styles', $fileName);
         }
 
         if ($request->filled('description')) {

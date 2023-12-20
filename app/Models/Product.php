@@ -28,7 +28,8 @@ class Product extends Model
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class)
+            ->orderBy('product_tag.id', 'asc');
     }
 
     public function attributeValues(): BelongsToMany
@@ -38,15 +39,13 @@ class Product extends Model
 
     public function images(): BelongsToMany
     {
-        return $this->belongsToMany(Image::class);
+        return $this->belongsToMany(Image::class)
+            ->orderBy('image_product.id', 'asc');
     }
 
     // public function getSpecificationImageAttribute($value)
     // {
-    //     if (is_null($value)) {
-    //         return null;
-    //     }
-    //     $url = env('APP_URL') . "/" . $value;
-    //     return $url;
+    //     return "hello";
     // }
+
 }
